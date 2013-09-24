@@ -13,7 +13,7 @@ namespace MischiefFramework.Core.Helpers {
 
         internal static bool Tranparent = false;
 
-        internal static void ChangeEffectUsedByModel(Model model, Effect replacementEffect) {
+        internal static void ChangeEffectUsedByModel(Model model, Effect replacementEffect, bool clone = true) {
             // Table mapping the original effects to our replacement versions.
             Dictionary<Effect, Effect> effectMapping = new Dictionary<Effect, Effect>();
 
@@ -36,7 +36,7 @@ namespace MischiefFramework.Core.Helpers {
                             // applied several times to different parts of the model using
                             // a different texture each time, so we need a fresh copy each
                             // time we want to set a different texture into it.
-                            Effect newEffect = replacementEffect.Clone();
+                            Effect newEffect = clone?replacementEffect.Clone():replacementEffect;
                             BasicEffect oldBasicEffect = oldEffect as BasicEffect;
 
                             // Copy across the texture from the original effect.

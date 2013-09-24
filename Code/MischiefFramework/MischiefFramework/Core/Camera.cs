@@ -12,7 +12,7 @@ namespace MischiefFramework.Core {
 
         internal BoundingFrustum Frustum;
 
-        internal Camera() {
+        internal Camera(float w, float h) {
             View = Matrix.Identity;
             Projection = Matrix.Identity;
             ViewProjection = Matrix.Identity;
@@ -22,7 +22,7 @@ namespace MischiefFramework.Core {
             Up = Vector3.Up;
 
             //TODO: Store these values rather than hardcode them
-            Matrix.CreateOrthographic((float)4000, (float)4000, 0.1f, 5000.0f, out Projection);
+            Matrix.CreateOrthographic(w, h, 0.1f, 5000.0f, out Projection);
 
             Frustum = new BoundingFrustum(Matrix.Identity);
 

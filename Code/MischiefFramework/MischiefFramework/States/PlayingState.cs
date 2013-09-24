@@ -16,7 +16,7 @@ namespace MischiefFramework.States {
         private Camera mainCam;
 
         //Camera stats
-        private float cameraX = (float)Math.PI / 4.0f;  // XZ Angle
+        private float cameraX = (float)Math.PI / 3.0f;  // XZ Angle
         private float cameraY = (float)Math.PI / 6.0f;  // Y Angle
         private float cameraZoom = 1500.0f;               // Camera Zoom
         private float cameraOffsetX = 0.0f;             // Where the camera is looking in X
@@ -28,7 +28,7 @@ namespace MischiefFramework.States {
         public PlayingState() {
             Renderer.Initialize();
 
-            mainCam = new Camera();
+            mainCam = new Camera(16, 9);
             Renderer.CharacterCamera = mainCam;
 
             MischiefFramework.Core.Renderer.Add(new MischiefFramework.World.Information.InfoPanel());
@@ -45,14 +45,11 @@ namespace MischiefFramework.States {
             Renderer.Update(gameTime);
             Player.Input.Update(gameTime);
 
-            //cameraX += Player.Input.AimX();
-            //cameraY += Player.Input.AimY();
-
-            cameraZoom = Math.Max(cameraZoom, 6.0f);
+            /*cameraZoom = Math.Max(cameraZoom, 6.0f);
             cameraY = Math.Min(Math.Max(cameraY, (float)Math.PI/6.0f), (float)Math.PI/2.01f);
 
-            //cameraOffsetX -= Player.Input.GetY() * (float)Math.Cos(cameraX) - Player.Input.GetX() * (float)Math.Sin(cameraX);
-            //cameraOffsetZ -= Player.Input.GetY() * (float)Math.Sin(cameraX) + Player.Input.GetX() * (float)Math.Cos(cameraX);
+            cameraOffsetX -= 5 * (Player.Input.GetY() * (float)Math.Cos(cameraX) - Player.Input.GetX() * (float)Math.Sin(cameraX));
+            cameraOffsetZ -= 5 * (Player.Input.GetY() * (float)Math.Sin(cameraX) + Player.Input.GetX() * (float)Math.Cos(cameraX));
 
             mainCam.LookAt.X = cameraOffsetX;
             mainCam.LookAt.Y = cameraOffsetY;
@@ -62,7 +59,7 @@ namespace MischiefFramework.States {
             mainCam.Position.Y = cameraZoom * (float)(Math.Sin(cameraY)) + cameraOffsetY;
             mainCam.Position.Z = cameraZoom * (float)(Math.Sin(cameraX) * Math.Cos(cameraY)) + cameraOffsetZ;
             mainCam.GenerateMatrices();
-
+            */
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             //TODO: Update things here

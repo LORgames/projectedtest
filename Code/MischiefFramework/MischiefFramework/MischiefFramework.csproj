@@ -63,6 +63,9 @@
     <Reference Include="BEPUphysics">
       <HintPath>..\BEPU1.2\BEPUphysics.dll</HintPath>
     </Reference>
+    <Reference Include="BEPUphysicsDrawer">
+      <HintPath>..\BEPU1.2\BEPUphysicsDrawer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -148,6 +151,9 @@
     <Compile Include="World\Information\IInfoPanel.cs" />
     <Compile Include="World\Information\InfoPanel.cs" />
     <Compile Include="World\Map\Map.cs" />
+    <Compile Include="World\PlayerX\SimpleCharacter.cs" />
+    <Compile Include="World\PlayerX\SimpleCharacterControllerInput.cs" />
+    <Compile Include="World\PlayerX\SimpleCharacterRenderer.cs" />
     <Compile Include="World\TestItems\TestCharacterController.cs" />
     <Compile Include="World\TestItems\TestController.cs" />
     <Compile Include="World\TestItems\TestLight.cs" />
@@ -158,6 +164,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SkinnedModel %28Xbox%29\SkinnedModel.csproj">
+      <Project>{B37FB7AC-7771-4444-BC27-FCCC93A1DF80}</Project>
+      <Name>SkinnedModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ZDataTypes\ZDataTypes.csproj">
       <Project>{BBE713DD-B02F-4839-8835-4BF78E11AD4E}</Project>
       <Name>ZDataTypes</Name>

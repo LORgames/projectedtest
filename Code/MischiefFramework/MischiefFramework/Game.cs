@@ -12,6 +12,11 @@ using MischiefFramework.States;
 using MischiefFramework.Cache;
 using MischiefFramework.World.Information;
 
+#if DEBUG
+using BEPUphysicsDrawer.Models;
+using BEPUphysicsDrawer.Lines;
+#endif
+
 namespace MischiefFramework {
     /// <summary>
     /// This is the main type for your game
@@ -21,6 +26,9 @@ namespace MischiefFramework {
         internal static GraphicsDevice device;
 
         internal static Game instance;
+
+        public ModelDrawer ModelDrawer;
+        public LineDrawer ConstraintDrawer;
 
         internal Game() {
             graphics = new GraphicsDeviceManager(this);
@@ -37,10 +45,8 @@ namespace MischiefFramework {
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize() {
-            //graphics.PreferredBackBufferWidth = 1280;
-            //graphics.PreferredBackBufferHeight = 720;
-            graphics.PreferredBackBufferWidth = 4000;
-            graphics.PreferredBackBufferHeight = 4000;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
 
             base.IsMouseVisible = true;
@@ -51,6 +57,9 @@ namespace MischiefFramework {
 
             ResourceManager.SetContent(Content);
             StateManager.Initilize();
+
+            ModelDrawer = new InstancedModelDrawer(this);
+            ConstraintDrawer = new LineDrawer(this);
 
             base.Initialize();
         }

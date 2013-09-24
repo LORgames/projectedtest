@@ -45,7 +45,7 @@ namespace MischiefFramework.Core {
         private static QuadRenderer quadrenderer;
 
         internal static void Initialize() {
-            CharacterCamera = new Camera();
+            CharacterCamera = new Camera(1, 1);
 
             if (Effect3D == null) Effect3D = ResourceManager.LoadAsset<Effect>("Shaders/OpaqueShader");
             if (EffectTransparent == null) EffectTransparent = ResourceManager.LoadAsset<Effect>("Shaders/TransparentShader");
@@ -173,7 +173,7 @@ namespace MischiefFramework.Core {
             spriteBatch.Draw(ColorRT, FullScreenRect, Color.White);
             spriteBatch.End();
 
-            if (Player.Input.GetJump()) {
+            if (Player.Input.GetJump() && false) {
                 FileStream f0 = new FileStream("C:\\Users\\Paul\\Desktop\\ColourRT.png", FileMode.CreateNew);
                 ColorRT.SaveAsPng(f0, 4000, 4000);
                 FileStream f1 = new FileStream("C:\\Users\\Paul\\Desktop\\NormalRT.png", FileMode.CreateNew);
@@ -201,6 +201,9 @@ namespace MischiefFramework.Core {
             }
 
             spriteBatch.End();
+
+            Game.instance.ModelDrawer.Draw(CharacterCamera.View, CharacterCamera.Projection);
+            Game.instance.ConstraintDrawer.Draw(CharacterCamera.View, CharacterCamera.Projection);
         }
 
         internal static void DrawDirectionalLight(Vector3 lightDirection, Color color, int techniqueId = 0) {

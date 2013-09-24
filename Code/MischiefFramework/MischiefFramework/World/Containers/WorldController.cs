@@ -5,6 +5,7 @@ using System.Text;
 using MischiefFramework.Core.Interfaces;
 using Microsoft.Xna.Framework;
 using BEPUphysics;
+using MischiefFramework.World.PlayerX;
 
 namespace MischiefFramework.World.Containers {
     internal class WorldController : IDisposable {
@@ -13,6 +14,8 @@ namespace MischiefFramework.World.Containers {
         public WorldController() {
             space = new Space();
             space.ForceUpdater.Gravity = new Vector3(0, -9.81f, 0);
+
+            new SimpleCharacterControllerInput(space);
         }
 
         public void Update(float dt) {
