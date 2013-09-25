@@ -23,7 +23,7 @@ texture depthMap;
 texture shadowMap;
 float4x4 lightViewProjection;
 static const float SMAP_SIZE = 1024.0f;
-static const float SHADOW_EPSILON = 0.00033f;
+static const float SHADOW_EPSILON = 0.0003f;
 
 sampler colorSampler = sampler_state {
     Texture = (colorMap);
@@ -140,11 +140,12 @@ float4 PixelShaderFunction(VertexShaderOutput input, uniform bool useShadowMap) 
 		float dx = 1.0f / SMAP_SIZE;
 
 		float s0 = tex2D(shadowSampler, positionInLightSpace.xy).r + SHADOW_EPSILON < lightDepth ? 0.0f : 1.0f;
-		float s1 = tex2D(shadowSampler, positionInLightSpace.xy + float2(dx, 0.0f)).r + SHADOW_EPSILON < lightDepth ? 0.0f : 1.0f;
-		float s2 = tex2D(shadowSampler, positionInLightSpace.xy + float2(0.0f, dx)).r + SHADOW_EPSILON < lightDepth ? 0.0f : 1.0f;
-		float s3 = tex2D(shadowSampler, positionInLightSpace.xy + float2(dx, dx)).r + SHADOW_EPSILON < lightDepth ? 0.0f : 1.0f;
+		//float s1 = tex2D(shadowSampler, positionInLightSpace.xy + float2(dx, 0.0f)).r + SHADOW_EPSILON < lightDepth ? 0.0f : 1.0f;
+		//float s2 = tex2D(shadowSampler, positionInLightSpace.xy + float2(0.0f, dx)).r + SHADOW_EPSILON < lightDepth ? 0.0f : 1.0f;
+		//float s3 = tex2D(shadowSampler, positionInLightSpace.xy + float2(dx, dx)).r + SHADOW_EPSILON < lightDepth ? 0.0f : 1.0f;
 
-		shadowCoeff = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
+		//shadowCoeff = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
+		shadowCoeff = s0;
 	}
 
     //output the two lights

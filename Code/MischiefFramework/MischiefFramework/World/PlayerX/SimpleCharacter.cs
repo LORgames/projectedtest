@@ -43,8 +43,8 @@ namespace MischiefFramework.World.PlayerX {
         /// <summary>
         /// Rate of increase in the character's speed in the movementDirection.
         /// </summary>
-        public const float MIN_ACCELERATION = 10;
-        public const float MAX_ACCELERATION = 50;
+        public const float MIN_ACCELERATION = 3;
+        public const float MAX_ACCELERATION = 10;
         public float Acceleration = MAX_ACCELERATION;
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace MischiefFramework.World.PlayerX {
         /// <summary>
         /// Initial vertical speed when jumping.
         /// </summary>
-        public float JumpSpeed = 4.0f;
+        public float JumpSpeed = 8.0f;
 
         /// <summary>
         /// The maximum slope under which walking forces can be applied.
@@ -77,7 +77,7 @@ namespace MischiefFramework.World.PlayerX {
         /// Maximum speed in the movementDirection that can be attained.
         /// </summary>
         public const float MIN_SPEED = 1.0f;
-        public const float MAX_SPEED = 6.0f;
+        public const float MAX_SPEED = 3.0f;
         public float Speed = MAX_SPEED;
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace MischiefFramework.World.PlayerX {
         /// <summary>
         /// Deceleration applied to oppose uncontrolled horizontal movement when the character has a steady foothold on the ground (hasTraction == true).
         /// </summary>
-        public float TractionDeceleration = 90f;
+        public float TractionDeceleration = 200f;
 
         public SimpleCharacterRenderer meshObj;
 
@@ -166,8 +166,8 @@ namespace MischiefFramework.World.PlayerX {
             collisionPairCollector.LinearVelocity = Body.LinearVelocity;
             collisionPairCollector.Position = (Body.Position + collisionPairCollectorPositionOffset);
 
-            //p_angle -= Player.Input.AimX() * dt * SettingManager._lookSensitivity;
-            //Body.Orientation = Quaternion.CreateFromYawPitchRoll(p_angle, 0, 0);
+            p_angle = (float)Math.Atan2(-Player.Input.AimY(), Player.Input.AimX()) - (float)Math.PI/4;
+            Body.Orientation = Quaternion.CreateFromYawPitchRoll(p_angle, 0, 0);
         }
 
         private float p_angle = 0;

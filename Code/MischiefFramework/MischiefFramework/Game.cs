@@ -12,7 +12,7 @@ using MischiefFramework.States;
 using MischiefFramework.Cache;
 using MischiefFramework.World.Information;
 
-#if DEBUG
+#if DEBUG_PHYSICS
 using BEPUphysicsDrawer.Models;
 using BEPUphysicsDrawer.Lines;
 #endif
@@ -26,9 +26,11 @@ namespace MischiefFramework {
         internal static GraphicsDevice device;
 
         internal static Game instance;
-
+        
+#if DEBUG_PHYSICS
         public ModelDrawer ModelDrawer;
         public LineDrawer ConstraintDrawer;
+#endif
 
         internal Game() {
             graphics = new GraphicsDeviceManager(this);
@@ -58,8 +60,10 @@ namespace MischiefFramework {
             ResourceManager.SetContent(Content);
             StateManager.Initilize();
 
+#if DEBUG_PHYSICS
             ModelDrawer = new InstancedModelDrawer(this);
             ConstraintDrawer = new LineDrawer(this);
+#endif
 
             base.Initialize();
         }

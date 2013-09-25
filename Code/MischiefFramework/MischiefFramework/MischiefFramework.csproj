@@ -39,7 +39,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\x86\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoStdLib>true</NoStdLib>
@@ -151,11 +151,11 @@
     <Compile Include="World\Information\IInfoPanel.cs" />
     <Compile Include="World\Information\InfoPanel.cs" />
     <Compile Include="World\Map\Map.cs" />
+    <Compile Include="World\Map\Sun.cs" />
     <Compile Include="World\PlayerX\SimpleCharacter.cs" />
     <Compile Include="World\PlayerX\SimpleCharacterControllerInput.cs" />
     <Compile Include="World\PlayerX\SimpleCharacterRenderer.cs" />
-    <Compile Include="World\TestItems\TestCharacterController.cs" />
-    <Compile Include="World\TestItems\TestController.cs" />
+    <Compile Include="World\TestItems\TestBox.cs" />
     <Compile Include="World\TestItems\TestLight.cs" />
     <Compile Include="World\TestItems\TestSphere.cs" />
   </ItemGroup>
@@ -177,7 +177,9 @@
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="World\Weapons\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using MischiefFramework.Cache;
 using MischiefFramework.Core;
 using MischiefFramework.States;
+using Microsoft.Xna.Framework.Media;
 
 namespace MischiefFramework.World.PlayerX {
     /// <summary>
@@ -36,7 +37,7 @@ namespace MischiefFramework.World.PlayerX {
         /// <param name="owningSpace">Space to add the character to.</param>
         /// <param name="CameraToUse">Camera to attach to the character.</param>
         public SimpleCharacterControllerInput(Space owningSpace) {
-            CharacterController = new SimpleCharacterController(Vector3.Up, 1.2f, 0.5f, 0.1f, 35.0f, true);
+            CharacterController = new SimpleCharacterController(Vector3.Up, 1.2f, 0.75f, 0.3f, 35.0f, true);
 
             Space = owningSpace;
             Space.Add(CharacterController);
@@ -89,16 +90,26 @@ namespace MischiefFramework.World.PlayerX {
                 Renderer.CharacterCamera.Position = CharacterController.Body.BufferedStates.InterpolatedStates.Position + CameraOffset;
                 Vector2 totalMovement = Vector2.Zero;
 
-                Vector3 forward = CharacterController.Body.OrientationMatrix.Forward;
+                /*Vector3 forward = CharacterController.Body.OrientationMatrix.Forward;
                 forward.Y = 0;
                 forward.Normalize();
 
                 Vector3 right = CharacterController.Body.OrientationMatrix.Right;
                 right.Y = 0;
+                right.Normalize();*/
+
+                Vector3 forward = Renderer.CharacterCamera.View.Left;
+                forward.Y = 0;
+                forward.Normalize();
+
+                Vector3 right = Renderer.CharacterCamera.View.Forward;
+                right.Y = 0;
                 right.Normalize();
 
                 totalMovement += Player.Input.GetY() * new Vector2(forward.X, forward.Z);
                 totalMovement += Player.Input.GetX() * new Vector2(right.X, right.Z);
+
+                if(totalMovement != Vector2.Zero) totalMovement.Normalize();
 
                 CharacterController.MovementDirection = totalMovement;
 
@@ -108,10 +119,6 @@ namespace MischiefFramework.World.PlayerX {
                 Renderer.CharacterCamera.Position.Y = CAMERA_ZOOM * 0.500f + Renderer.CharacterCamera.LookAt.Y;
                 Renderer.CharacterCamera.Position.Z = CAMERA_ZOOM * 0.612f + Renderer.CharacterCamera.LookAt.Z;
                 Renderer.CharacterCamera.GenerateMatrices();
-
-                //if (plantingTimeout > 0 && plantingTimeout - dt < 0) {
-                //    Player.playerCharacter.meshObj.m_animplayer.StartClip(Player.playerCharacter.meshObj.skinningData.AnimationClips["idle"]);
-                //}
 
                 if (Player.Input.GetJump()) {
                     Player.playerCharacter.Jump();

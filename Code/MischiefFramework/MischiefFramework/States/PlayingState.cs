@@ -1,15 +1,8 @@
 using System;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using MischiefFramework.Cache;
 using MischiefFramework.Core;
-using MischiefFramework.Core.Interfaces;
-using Microsoft.Xna.Framework;
-using System.Threading;
-using MischiefFramework.Networking;
-using MischiefFramework.World.Information;
 using MischiefFramework.World.Containers;
-using MischiefFramework.World.TestItems;
-using MischiefFramework.World.Map;
 
 namespace MischiefFramework.States {
     internal class PlayingState : IState {
@@ -28,38 +21,36 @@ namespace MischiefFramework.States {
         public PlayingState() {
             Renderer.Initialize();
 
-            mainCam = new Camera(16, 9);
+            //mainCam = new Camera(16, 9);
+            mainCam = new Camera(8, 4.5f);
+            //mainCam = new Camera(4, 2.25f);
+            //mainCam = new Camera(2, 1.125f);
+            //mainCam = new Camera(1, 0.5625f);
             Renderer.CharacterCamera = mainCam;
 
             MischiefFramework.Core.Renderer.Add(new MischiefFramework.World.Information.InfoPanel());
 
-            PlayerInput.SetMouseLock(true);
-
             worldController = new WorldController();
 
-            //TestController.CreateTest();
-            new Map();
+#if DEBUG_PHYSICS
+            foreach (Entity e in WorldController.space.Entities) {
+                if ((string)e.Tag != "noDisplayObject") {
+                    Game.instance.ModelDrawer.Add(e);
+                } else //Remove the now unnecessary tag.
+                    e.Tag = null;
+            }
+#endif
         }
 
         public bool Update(GameTime gameTime) {
             Renderer.Update(gameTime);
             Player.Input.Update(gameTime);
 
-            /*cameraZoom = Math.Max(cameraZoom, 6.0f);
-            cameraY = Math.Min(Math.Max(cameraY, (float)Math.PI/6.0f), (float)Math.PI/2.01f);
+#if DEBUG_PHYSICS
+            Game.instance.ConstraintDrawer.Update();
+            Game.instance.ModelDrawer.Update();
+#endif
 
-            cameraOffsetX -= 5 * (Player.Input.GetY() * (float)Math.Cos(cameraX) - Player.Input.GetX() * (float)Math.Sin(cameraX));
-            cameraOffsetZ -= 5 * (Player.Input.GetY() * (float)Math.Sin(cameraX) + Player.Input.GetX() * (float)Math.Cos(cameraX));
-
-            mainCam.LookAt.X = cameraOffsetX;
-            mainCam.LookAt.Y = cameraOffsetY;
-            mainCam.LookAt.Z = cameraOffsetZ;
-
-            mainCam.Position.X = cameraZoom * (float)(Math.Cos(cameraX) * Math.Cos(cameraY)) + cameraOffsetX;
-            mainCam.Position.Y = cameraZoom * (float)(Math.Sin(cameraY)) + cameraOffsetY;
-            mainCam.Position.Z = cameraZoom * (float)(Math.Sin(cameraX) * Math.Cos(cameraY)) + cameraOffsetZ;
-            mainCam.GenerateMatrices();
-            */
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             //TODO: Update things here

@@ -159,8 +159,11 @@ namespace MischiefFramework.Core {
                 dy = -1.0f;
             }
 
-            ax = ((float)(currentMouseState.X - prevX) / 10.0f);
-            ay = -((float)(currentMouseState.Y - prevY) / 10.0f);
+            //ax = ((float)(currentMouseState.X - prevX) / 10.0f);
+            //ay = -((float)(currentMouseState.Y - prevY) / 10.0f);
+
+            ax = ((float)currentMouseState.X / Game.device.ScissorRectangle.Width)*2 - 1;
+            ay = ((float)currentMouseState.Y / Game.device.ScissorRectangle.Height)*2 - 1;
 
             prevX = currentMouseState.X;
             prevY = currentMouseState.Y;

@@ -29,7 +29,7 @@ float4x4 Projection;
 float4x4 WorldViewProjection;
 float4x4 WorldInverseTranspose;
 
-int ShaderIndex = 1;
+int ShaderIndex = 2;
 
 //--------------------------------------------------------------------------------------
 // Shader Input/Output structures

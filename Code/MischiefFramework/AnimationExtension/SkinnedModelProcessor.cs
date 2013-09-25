@@ -49,9 +49,7 @@ namespace AnimationExtension {
             IList<BoneContent> bones = MeshHelper.FlattenSkeleton(skeleton);
 
             if (bones.Count > SkinnedEffect.MaxBones) {
-                throw new InvalidContentException(string.Format(
-                    "Skeleton has {0} bones, but the maximum supported is {1}.",
-                    bones.Count, SkinnedEffect.MaxBones));
+                throw new InvalidContentException(string.Format("Skeleton has {0} bones, but the maximum supported is {1}.", bones.Count, SkinnedEffect.MaxBones));
             }
 
             List<Matrix> bindPose = new List<Matrix>();
@@ -76,8 +74,7 @@ namespace AnimationExtension {
             ModelContent model = base.Process(input, context);
 
             // Store our custom animation data in the Tag property of the model.
-            model.Tag = new SkinningData(animationClips, bindPose,
-                                         inverseBindPose, skeletonHierarchy);
+            model.Tag = new SkinningData(animationClips, bindPose, inverseBindPose, skeletonHierarchy);
 
             return model;
         }
@@ -113,13 +110,11 @@ namespace AnimationExtension {
 
             foreach (KeyValuePair<string, AnimationContent> animation in animations) {
                 AnimationClip processed = ProcessAnimation(animation.Value, boneMap);
-
                 animationClips.Add(animation.Key, processed);
             }
 
             if (animationClips.Count == 0) {
-                throw new InvalidContentException(
-                            "Input file does not contain any animations.");
+                throw new InvalidContentException("Input file does not contain any animations.");
             }
 
             return animationClips;
@@ -135,32 +130,25 @@ namespace AnimationExtension {
             List<Keyframe> keyframes = new List<Keyframe>();
 
             // For each input animation channel.
-            foreach (KeyValuePair<string, AnimationChannel> channel in
-                animation.Channels) {
+            foreach (KeyValuePair<string, AnimationChannel> channel in animation.Channels) {
                 // Look up what bone this channel is controlling.
                 int boneIndex;
 
                 if (!boneMap.TryGetValue(channel.Key, out boneIndex)) {
-                    throw new InvalidContentException(string.Format(
-                        "Found animation for bone '{0}', " +
-                        "which is not part of the skeleton.", channel.Key));
+                    throw new InvalidContentException(string.Format("Found animation for bone '{0}', which is not part of the skeleton.", channel.Key));
                 }
 
                 // Convert the keyframe data.
                 foreach (AnimationKeyframe keyframe in channel.Value) {
-                    keyframes.Add(new Keyframe(boneIndex, keyframe.Time,
-                                               keyframe.Transform));
+                    keyframes.Add(new Keyframe(boneIndex, keyframe.Time, keyframe.Transform));
                 }
             }
 
             // Sort the merged keyframes by time.
             keyframes.Sort(CompareKeyframeTimes);
 
-            if (keyframes.Count == 0)
-                throw new InvalidContentException("Animation has no keyframes.");
-
-            if (animation.Duration <= TimeSpan.Zero)
-                throw new InvalidContentException("Animation has a zero duration.");
+            if (keyframes.Count == 0) throw new InvalidContentException("Animation has no keyframes.");
+            if (animation.Duration <= TimeSpan.Zero) throw new InvalidContentException("Animation has a zero duration.");
 
             return new AnimationClip(animation.Duration, keyframes);
         }
@@ -177,23 +165,17 @@ namespace AnimationExtension {
         /// <summary>
         /// Makes sure this mesh contains the kind of data we know how to animate.
         /// </summary>
-        static void ValidateMesh(NodeContent node, ContentProcessorContext context,
-                                 string parentBoneName) {
+        static void ValidateMesh(NodeContent node, ContentProcessorContext context, string parentBoneName) {
             MeshContent mesh = node as MeshContent;
 
             if (mesh != null) {
                 // Validate the mesh.
                 if (parentBoneName != null) {
-                    context.Logger.LogWarning(null, null,
-                        "Mesh {0} is a child of bone {1}. SkinnedModelProcessor " +
-                        "does not correctly handle meshes that are children of bones.",
-                        mesh.Name, parentBoneName);
+                    context.Logger.LogWarning(null, null, "Mesh {0} is a child of bone {1}. SkinnedModelProcessor does not correctly handle meshes that are children of bones.", mesh.Name, parentBoneName);
                 }
 
                 if (!MeshHasSkinning(mesh)) {
-                    context.Logger.LogWarning(null, null,
-                        "Mesh {0} has no skinning information, so it has been deleted.",
-                        mesh.Name);
+                    context.Logger.LogWarning(null, null, "Mesh {0} has no skinning information, so it has been deleted.", mesh.Name);
 
                     mesh.Parent.Children.Remove(mesh);
                     return;

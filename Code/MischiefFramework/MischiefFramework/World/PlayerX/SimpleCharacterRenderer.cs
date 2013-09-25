@@ -15,12 +15,12 @@ namespace MischiefFramework.World.PlayerX {
 
     internal class SimpleCharacterRenderer : Asset, IOpaque {
         private Model m_model;
-        //public SkinningData skinningData;
-        //public AnimationPlayer m_animplayer;
+        public SkinningData skinningData;
+        public AnimationPlayer m_animplayer;
 
         private Matrix worldFinal = Matrix.Identity;
-        private Matrix worldRotation = Matrix.CreateTranslation(new Vector3(-50f, -110f, -50));
-        private Matrix worldTransform = Matrix.CreateScale(0.0075f) * Matrix.CreateRotationY(3.14159f);
+        private Matrix worldRotation = Matrix.CreateRotationY((float)Math.PI);
+        private Matrix worldTransform = Matrix.CreateScale(0.005f);
 
         //private Matrix internal_offset = Matrix.CreateTranslation(new Vector3(1.5f, 0, 0));
 
@@ -30,10 +30,7 @@ namespace MischiefFramework.World.PlayerX {
         public SimpleCharacterRenderer(Capsule Body) {
             m_body = Body;
 
-            m_model = ResourceManager.LoadAsset<Model>("Meshes/TestObjects/ball");
-            MeshHelper.ChangeEffectUsedByModel(m_model, Renderer.Effect3D);
-
-            /*m_model = ResourceManager.LoadAsset<Model>("Meshes/MainCharacter/MainCharacter");
+            m_model = ResourceManager.LoadAsset<Model>("Meshes/Character/Test Character");
             MeshHelper.ChangeEffectUsedByModel(m_model, Renderer.EffectAnimated);
 
             // Look up our custom skinning information.
@@ -44,14 +41,7 @@ namespace MischiefFramework.World.PlayerX {
 
             // Create an animation player, and start decoding an animation clip.
             m_animplayer = new AnimationPlayer(skinningData);
-            m_animplayer.StartClip(skinningData.AnimationClips["idle"]);
-
-            foreach(ModelBone bone in m_model.Bones) {
-                if (bone.Name == "popo_RightHandThumb1") {
-                    boneIndex = bone.Index;
-                    //new TeddyTest();
-                }
-            }*/
+            m_animplayer.StartClip(skinningData.AnimationClips["Idle"]);
 
             Renderer.Add(this);
             AssetManager.AddAsset(this);
@@ -81,21 +71,22 @@ namespace MischiefFramework.World.PlayerX {
             } else if(state != PlayerState.Idle) {
                 m_animplayer.StartClip(skinningData.AnimationClips["idle"]);
                 state = PlayerState.Idle;
-            }
+            }*/
 
-            m_animplayer.Update(TimeSpan.FromSeconds(dt), true, Matrix.Identity);*/
+            m_animplayer.Update(TimeSpan.FromSeconds(dt), true, Matrix.Identity);
         }
 
         public void RenderOpaque() {
-            /*Matrix[] mats = new Matrix[m_model.Bones.Count];
+            Matrix[] mats = new Matrix[m_model.Bones.Count];
+            Matrix[] bones = m_animplayer.GetSkinTransforms();
 
-            foreach(ModelMesh mesh in m_model.Meshes) {
+            foreach (ModelMesh mesh in m_model.Meshes) {
                 foreach (Effect effect in mesh.Effects) {
-                    effect.Parameters["Bones"].SetValue(m_animplayer.GetSkinTransforms());
+                    effect.Parameters["Bones"].SetValue(bones);
                 }
-            }*/
+            }
 
-            MeshHelper.DrawModel(worldRotation * Matrix.CreateFromQuaternion(m_body.Orientation) * worldTransform * Matrix.CreateTranslation(m_body.Position - Vector3.Up * 0.45f), m_model);
+            MeshHelper.DrawModel(worldRotation * Matrix.CreateFromQuaternion(m_body.Orientation) * worldTransform * Matrix.CreateTranslation(m_body.Position - Vector3.Up * 0.923f), m_model);
         }
     }
 }

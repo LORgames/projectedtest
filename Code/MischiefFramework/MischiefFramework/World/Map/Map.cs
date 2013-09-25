@@ -37,14 +37,14 @@ namespace MischiefFramework.World.Map {
             effect.Parameters["TextureEnabled"].SetValue(true);
 
 
-            Camera c = new Camera(40, 40);
+            Camera c = new Camera(20, 20);
 
             //Camera stats
             float cameraX = (float)Math.PI / 4.0f;  // XZ Angle
             float cameraY = (float)Math.PI / 6.0f;  // Y Angle
             float cameraZoom = 6.0f;                // Camera Zoom
             float cameraOffsetX = 0.0f;             // Where the camera is looking in X
-            float cameraOffsetY = 2.0f;             // where the camera is looking in Y
+            float cameraOffsetY = 0.0f;             // where the camera is looking in Y
             float cameraOffsetZ = 0.0f;             // where the camera is looking in Z
 
             cameraY = Math.Min(Math.Max(cameraY, (float)Math.PI / 6.0f), (float)Math.PI / 2.01f);
@@ -63,7 +63,7 @@ namespace MischiefFramework.World.Map {
             Vector3[] vertices;
             int[] indices;
             TriangleMesh.GetVerticesAndIndicesFromModel(model, out vertices, out indices);
-            var mesh = new StaticMesh(vertices, indices, new AffineTransform(new Vector3(0, -40, 0)));
+            var mesh = new StaticMesh(vertices, indices, new AffineTransform(new Vector3(0, 0, 0)));
             WorldController.space.Add(mesh);
         }
 

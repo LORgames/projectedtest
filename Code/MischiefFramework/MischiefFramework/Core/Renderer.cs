@@ -153,12 +153,6 @@ namespace MischiefFramework.Core {
                 Lights[i].RenderLight();
             }
 
-            Vector3 v = Vector3.Zero;
-            v.X = -1;
-            v.Y = -2;
-            v.Z = -3;
-            DrawDirectionalLight(v, Color.White);
-
             Game.device.BlendState = BlendState.Opaque;
             Game.device.DepthStencilState = DepthStencilState.None;
             Game.device.RasterizerState = RasterizerState.CullCounterClockwise;
@@ -202,8 +196,10 @@ namespace MischiefFramework.Core {
 
             spriteBatch.End();
 
+#if DEBUG_PHYSICS
             Game.instance.ModelDrawer.Draw(CharacterCamera.View, CharacterCamera.Projection);
             Game.instance.ConstraintDrawer.Draw(CharacterCamera.View, CharacterCamera.Projection);
+#endif
         }
 
         internal static void DrawDirectionalLight(Vector3 lightDirection, Color color, int techniqueId = 0) {
@@ -277,8 +273,10 @@ namespace MischiefFramework.Core {
                 }
             }
 
+#if DEBUG_PHYSICS
             Game.device.RasterizerState = RasterizerState.CullCounterClockwise;
             Game.device.DepthStencilState = DepthStencilState.Default;
+#endif
         }
 
     }
