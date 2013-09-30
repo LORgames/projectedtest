@@ -12,7 +12,7 @@ using System.IO;
 
 namespace MischiefFramework.World.Map {
     internal class Sun : Asset, IShadowLight {
-        float time = 0.0f;
+        float time = 3.0f;
         bool night = false;
 
         Color Colour;
@@ -28,7 +28,7 @@ namespace MischiefFramework.World.Map {
 
             Colour = Color.White;
 
-            ShadowRT = new RenderTarget2D(Game.device, 4096, 4096, false, SurfaceFormat.Single, DepthFormat.Depth24);
+            ShadowRT = new RenderTarget2D(Game.device, 2048, 2048, false, SurfaceFormat.Single, DepthFormat.Depth24);
 
             AssetManager.AddAsset(this);
             Renderer.Add(this);
@@ -36,7 +36,7 @@ namespace MischiefFramework.World.Map {
 
         public override void AsyncUpdate(float dt) {
             //time += dt;
-            time = 6;
+            //time = 6;
 
             if(time > 12) { time -= 12; night = !night; };
 
@@ -69,12 +69,6 @@ namespace MischiefFramework.World.Map {
             Renderer.EffectLightsDirectional.Parameters["lightViewProjection"].SetValue(x.ViewProjection);
 
             Renderer.DrawDirectionalLight(Vector3.Down, Colour, 1);
-
-            if (Player.Input.GetFireRight()) {
-                FileStream f = new FileStream("X.png", FileMode.Create);
-                ShadowRT.SaveAsPng(f, 1024, 1024);
-                f.Close();
-            }
         }
     }
 }

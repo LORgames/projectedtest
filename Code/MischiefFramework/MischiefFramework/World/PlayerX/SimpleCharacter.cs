@@ -66,7 +66,7 @@ namespace MischiefFramework.World.PlayerX {
         /// <summary>
         /// Initial vertical speed when jumping.
         /// </summary>
-        public float JumpSpeed = 8.0f;
+        public float JumpSpeed = 5.0f;
 
         /// <summary>
         /// The maximum slope under which walking forces can be applied.

@@ -152,14 +152,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Meshes\Character\Test Character.fbx">
-      <Name>Test Character</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
-      <ProcessorParameters_Animations>Idle 2 19%3bJump 20 40%3bJumpLoop 19 20</ProcessorParameters_Animations>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Meshes\Weapons\Minigun.fbx">
       <Name>Minigun</Name>
       <Importer>FbxImporter</Importer>
@@ -170,11 +162,168 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
+    <Compile Include="Meshes\Character\Test Character.fbx">
+      <Name>Test Character</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>SkinnedModelProcessor</Processor>
+      <ProcessorParameters_Animations>Walk 1 28</ProcessorParameters_Animations>
+    </Compile>
+    <Compile Include="Meshes\Character\test walk.fbx">
+      <Name>test walk</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>SkinnedModelProcessor</Processor>
+      <ProcessorParameters_Animations>Walk 1 28</ProcessorParameters_Animations>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0001.obj">
+      <Name>Cape.0001</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0002.obj">
+      <Name>Cape.0002</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0003.obj">
+      <Name>Cape.0003</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0004.obj">
+      <Name>Cape.0004</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0005.obj">
+      <Name>Cape.0005</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0006.obj">
+      <Name>Cape.0006</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0007.obj">
+      <Name>Cape.0007</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0008.obj">
+      <Name>Cape.0008</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0009.obj">
+      <Name>Cape.0009</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0010.obj">
+      <Name>Cape.0010</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0011.obj">
+      <Name>Cape.0011</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0012.obj">
+      <Name>Cape.0012</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0013.obj">
+      <Name>Cape.0013</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0014.obj">
+      <Name>Cape.0014</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0015.obj">
+      <Name>Cape.0015</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0016.obj">
+      <Name>Cape.0016</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0017.obj">
+      <Name>Cape.0017</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0018.obj">
+      <Name>Cape.0018</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0019.obj">
+      <Name>Cape.0019</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0020.obj">
+      <Name>Cape.0020</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0021.obj">
+      <Name>Cape.0021</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0022.obj">
+      <Name>Cape.0022</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0023.obj">
+      <Name>Cape.0023</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0024.obj">
+      <Name>Cape.0024</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0025.obj">
+      <Name>Cape.0025</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0026.obj">
+      <Name>Cape.0026</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0027.obj">
+      <Name>Cape.0027</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Meshes\Character\Cape_OBJ_Seq\Cape.0028.obj">
+      <Name>Cape.0028</Name>
+      <Importer>ObjImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
     <None Include="Test Projected 3D\sourceimages\Face.jpg">
       <Name>Face</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </None>
+    <Compile Include="Shaders\Fxaa3_11.fxh">
+      <Name>Fxaa3_11</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Test Projected 3D\sourceimages\Hunter Chest.jpg">
@@ -198,15 +347,36 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Meshes\Weapons\MinigunTexture.jpg">
+    <None Include="Meshes\Weapons\MinigunTexture.jpg">
       <Name>MinigunTexture</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Meshes\TestObjects\Wood.png">
+      <Name>Wood</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Shaders\FXAA.fx">
+      <Name>FXAA</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Meshes\sourceimages\Face.jpg">
+      <Name>Face</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Meshes\TestObjects\Wood.png">
-      <Name>Wood</Name>
+    <Compile Include="Meshes\sourceimages\Hunter Chest.jpg">
+      <Name>Hunter Chest</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

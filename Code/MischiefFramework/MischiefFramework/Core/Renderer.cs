@@ -18,7 +18,9 @@ namespace MischiefFramework.Core {
         //Stolen Lighting Effects
         internal static Effect EffectLightsPoint;
         internal static Effect EffectLightsDirectional;
+        internal static Effect EffectFXAA;
 
+        //The render bin's LOLOLOL SORT OF! Hah!
         private static List<IHeadsUpDisplay> HeadsUpDisplays = new List<IHeadsUpDisplay>();
         private static List<IShadowLight> Shadows = new List<IShadowLight>();
         private static List<IOpaque> OpaqueObjects = new List<IOpaque>();
@@ -30,6 +32,7 @@ namespace MischiefFramework.Core {
         internal static RenderTarget2D NormalRT; //normals + specular power
         internal static RenderTarget2D DepthRT; //depth
         internal static RenderTarget2D LightRT; //lighting
+        internal static RenderTarget2D PostDrawRT; //Final Render before AA etc
 
         private static SpriteBatch spriteBatch;
         private static Model SphereModel;
@@ -44,6 +47,82 @@ namespace MischiefFramework.Core {
 
         private static QuadRenderer quadrenderer;
 
+        private static bool FXAA_use = true;
+        #region FXAA_Settings
+            // This effects sub-pixel AA quality and inversely sharpness.
+            //   Where N ranges between,
+            //     N = 0.50 (default)
+            //     N = 0.33 (sharper)
+            private static float FXAA_N = 0.40f;
+
+            // Choose the amount of sub-pixel aliasing removal.
+            // This can effect sharpness.
+            //   1.00 - upper limit (softer)
+            //   0.75 - default amount of filtering
+            //   0.50 - lower limit (sharper, less sub-pixel aliasing removal)
+            //   0.25 - almost off
+            //   0.00 - completely off
+            private static float FXAA_subPixelAliasingRemoval = 0.75f;
+
+            // The minimum amount of local contrast required to apply algorithm.
+            //   0.333 - too little (faster)
+            //   0.250 - low quality
+            //   0.166 - default
+            //   0.125 - high quality 
+            //   0.063 - overkill (slower)
+            private static float FXAA_edgeTheshold = 0.166f;
+
+            // Trims the algorithm from processing darks.
+            //   0.0833 - upper limit (default, the start of visible unfiltered edges)
+            //   0.0625 - high quality (faster)
+            //   0.0312 - visible limit (slower)
+            // Special notes when using FXAA_GREEN_AS_LUMA,
+            //   Likely want to set this to zero.
+            //   As colors that are mostly not-green
+            //   will appear very dark in the green channel!
+            //   Tune by looking at mostly non-green content,
+            //   then start at zero and increase until aliasing is a problem.
+            private static float FXAA_edgeThesholdMin = 0f;
+
+            // This does not effect PS3, as this needs to be compiled in.
+            //   Use FXAA_CONSOLE__PS3_EDGE_SHARPNESS for PS3.
+            //   Due to the PS3 being ALU bound,
+            //   there are only three safe values here: 2 and 4 and 8.
+            //   These options use the shaders ability to a free *|/ by 2|4|8.
+            // For all other platforms can be a non-power of two.
+            //   8.0 is sharper (default!!!)
+            //   4.0 is softer
+            //   2.0 is really soft (good only for vector graphics inputs)
+            private static float FXAA_consoleEdgeSharpness = 8.0f;
+
+            // This does not effect PS3, as this needs to be compiled in.
+            //   Use FXAA_CONSOLE__PS3_EDGE_THRESHOLD for PS3.
+            //   Due to the PS3 being ALU bound,
+            //   there are only two safe values here: 1/4 and 1/8.
+            //   These options use the shaders ability to a free *|/ by 2|4|8.
+            // The console setting has a different mapping than the quality setting.
+            // Other platforms can use other values.
+            //   0.125 leaves less aliasing, but is softer (default!!!)
+            //   0.25 leaves more aliasing, and is sharper
+            private static float FXAA_consoleEdgeThreshold = 0.125f;
+
+            // Trims the algorithm from processing darks.
+            // The console setting has a different mapping than the quality setting.
+            // This only applies when FXAA_EARLY_EXIT is 1.
+            // This does not apply to PS3, 
+            // PS3 was simplified to avoid more shader instructions.
+            //   0.06 - faster but more aliasing in darks
+            //   0.05 - default
+            //   0.04 - slower and less aliasing in darks
+            // Special notes when using FXAA_GREEN_AS_LUMA,
+            //   Likely want to set this to zero.
+            //   As colors that are mostly not-green
+            //   will appear very dark in the green channel!
+            //   Tune by looking at mostly non-green content,
+            //   then start at zero and increase until aliasing is a problem.
+            private static float FXAA_consoleEdgeThresholdMin = 0f;
+        #endregion
+
         internal static void Initialize() {
             CharacterCamera = new Camera(1, 1);
 
@@ -52,6 +131,8 @@ namespace MischiefFramework.Core {
             if (EffectPostProcessing == null) EffectPostProcessing = ResourceManager.LoadAsset<Effect>("Shaders/PostProcessing");
             if (EffectAnimated == null) EffectAnimated = ResourceManager.LoadAsset<Effect>("Shaders/AnimatedOpaque");
 
+            if (EffectFXAA == null) EffectFXAA = ResourceManager.LoadAsset<Effect>("Shaders/FXAA");
+            
             if (EffectLightsPoint == null) EffectLightsPoint = ResourceManager.LoadAsset<Effect>("Shaders/PointLight");
             if (EffectLightsDirectional == null) EffectLightsDirectional = ResourceManager.LoadAsset<Effect>("Shaders/DirectionalLight");
 
@@ -78,6 +159,7 @@ namespace MischiefFramework.Core {
             NormalRT = new RenderTarget2D(Game.device, backbufferWidth, backbufferHeight, false, SurfaceFormat.Color, DepthFormat.None);
             DepthRT = new RenderTarget2D(Game.device, backbufferWidth, backbufferHeight, false, SurfaceFormat.Single, DepthFormat.None);
             LightRT = new RenderTarget2D(Game.device, backbufferWidth, backbufferHeight, false, SurfaceFormat.Color, DepthFormat.None);
+            PostDrawRT = new RenderTarget2D(Game.device, backbufferWidth, backbufferHeight, false, SurfaceFormat.Color, DepthFormat.None);
 
             spriteBatch = new SpriteBatch(Game.device);
         }
@@ -108,6 +190,10 @@ namespace MischiefFramework.Core {
 
         internal static void Update(GameTime gametime) {
             RenderTime = (float)gametime.TotalGameTime.TotalSeconds;
+
+            if (Player.Input.GetFireLeft()) {
+                FXAA_use = !FXAA_use;
+            }
         }
 
         internal static void RenderOpaque_Extern() {
@@ -157,7 +243,7 @@ namespace MischiefFramework.Core {
             Game.device.DepthStencilState = DepthStencilState.None;
             Game.device.RasterizerState = RasterizerState.CullCounterClockwise;
 
-            Game.device.SetRenderTarget(null);
+            Game.device.SetRenderTarget(PostDrawRT);
 
             //Combine everything
             EffectPostProcessing.Parameters["LightMap"].SetValue(LightRT);
@@ -167,14 +253,33 @@ namespace MischiefFramework.Core {
             spriteBatch.Draw(ColorRT, FullScreenRect, Color.White);
             spriteBatch.End();
 
-            if (Player.Input.GetJump() && false) {
-                FileStream f0 = new FileStream("C:\\Users\\Paul\\Desktop\\ColourRT.png", FileMode.CreateNew);
-                ColorRT.SaveAsPng(f0, 4000, 4000);
-                FileStream f1 = new FileStream("C:\\Users\\Paul\\Desktop\\NormalRT.png", FileMode.CreateNew);
-                NormalRT.SaveAsPng(f1, 4000, 4000);
-                FileStream f2 = new FileStream("C:\\Users\\Paul\\Desktop\\DepthRT.png", FileMode.CreateNew);
-                DepthRT.SaveAsPng(f2, 4000, 4000);
-            }
+
+            #region FXAA_DRAW
+            Viewport viewport = Game.device.Viewport;
+            Matrix projection = Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height, 0, 0, 1);
+            Matrix halfPixelOffset = Matrix.CreateTranslation(-0.5f, -0.5f, 0);
+            EffectFXAA.Parameters["World"].SetValue(Matrix.Identity);
+            EffectFXAA.Parameters["View"].SetValue(Matrix.Identity);
+            EffectFXAA.Parameters["Projection"].SetValue(halfPixelOffset * projection);
+            EffectFXAA.Parameters["InverseViewportSize"].SetValue(new Vector2(1f / viewport.Width, 1f / viewport.Height));
+            EffectFXAA.Parameters["ConsoleSharpness"].SetValue(new Vector4(-FXAA_N / viewport.Width, -FXAA_N / viewport.Height, FXAA_N / viewport.Width, FXAA_N / viewport.Height));
+            EffectFXAA.Parameters["ConsoleOpt1"].SetValue(new Vector4(-2.0f / viewport.Width, -2.0f / viewport.Height, 2.0f / viewport.Width, 2.0f / viewport.Height));
+            EffectFXAA.Parameters["ConsoleOpt2"].SetValue(new Vector4(8.0f / viewport.Width, 8.0f / viewport.Height, -4.0f / viewport.Width, -4.0f / viewport.Height));
+            EffectFXAA.Parameters["SubPixelAliasingRemoval"].SetValue(FXAA_subPixelAliasingRemoval);
+            EffectFXAA.Parameters["EdgeThreshold"].SetValue(FXAA_edgeTheshold);
+            EffectFXAA.Parameters["EdgeThresholdMin"].SetValue(FXAA_edgeThesholdMin);
+            EffectFXAA.Parameters["ConsoleEdgeSharpness"].SetValue(FXAA_consoleEdgeSharpness);
+            EffectFXAA.Parameters["ConsoleEdgeThreshold"].SetValue(FXAA_consoleEdgeThreshold);
+            EffectFXAA.Parameters["ConsoleEdgeThresholdMin"].SetValue(FXAA_consoleEdgeThresholdMin);
+
+            EffectFXAA.CurrentTechnique = EffectFXAA.Techniques[FXAA_use ? "FXAA" : "Standard"];
+
+
+            Game.device.SetRenderTarget(null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.LinearClamp, null, null, EffectFXAA);
+            spriteBatch.Draw(PostDrawRT, Vector2.Zero, Color.White);
+            spriteBatch.End();
+            #endregion
 
             //Exit early to avoid expensive shaders if they aren't needed
             if (TransparentObjects.Count > 0) {

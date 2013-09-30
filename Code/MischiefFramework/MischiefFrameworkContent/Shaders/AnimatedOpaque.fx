@@ -120,7 +120,7 @@ PSOutput PS_GBuffer(VSOutput Input) : SV_Target0 {
     PSOutput Output;
 
 	// DIFFUSE
-    Output.Color = tex2D(DiffuseMap, Input.TexCoord);
+	Output.Color = tex2D(DiffuseMap, Input.TexCoord);
 	
 	// SPECULAR INTENSITY
     Output.Color.a = (MaterialSpecularColor.r+MaterialSpecularColor.g+MaterialSpecularColor.b)/3.0f;

@@ -27,7 +27,7 @@ namespace MischiefFramework.World.TestItems {
 
             Matrix.CreateScale(edgeLength/2.0f, out scale);
 
-            mesh = new Box(position, edgeLength, edgeLength, edgeLength, 1000.0f);
+            mesh = new Box(position, edgeLength, edgeLength, edgeLength, 10.0f);
             space.Add(mesh);
 
             mesh.Tag = this;

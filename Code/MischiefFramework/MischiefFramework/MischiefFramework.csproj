@@ -152,6 +152,7 @@
     <Compile Include="World\Information\InfoPanel.cs" />
     <Compile Include="World\Map\Map.cs" />
     <Compile Include="World\Map\Sun.cs" />
+    <Compile Include="World\PlayerX\Cape.cs" />
     <Compile Include="World\PlayerX\SimpleCharacter.cs" />
     <Compile Include="World\PlayerX\SimpleCharacterControllerInput.cs" />
     <Compile Include="World\PlayerX\SimpleCharacterRenderer.cs" />

@@ -4,17 +4,13 @@ using MischiefFramework.Cache;
 using MischiefFramework.Core;
 using MischiefFramework.World.Containers;
 
+#if DEBUG_PHYSICS
+using BEPUphysics.Entities;
+#endif
+
 namespace MischiefFramework.States {
     internal class PlayingState : IState {
         private Camera mainCam;
-
-        //Camera stats
-        private float cameraX = (float)Math.PI / 3.0f;  // XZ Angle
-        private float cameraY = (float)Math.PI / 6.0f;  // Y Angle
-        private float cameraZoom = 1500.0f;               // Camera Zoom
-        private float cameraOffsetX = 0.0f;             // Where the camera is looking in X
-        private float cameraOffsetY = 2.0f;             // where the camera is looking in Y
-        private float cameraOffsetZ = 0.0f;             // where the camera is looking in Z
 
         private WorldController worldController;
 
@@ -22,8 +18,9 @@ namespace MischiefFramework.States {
             Renderer.Initialize();
 
             //mainCam = new Camera(16, 9);
-            mainCam = new Camera(8, 4.5f);
-            //mainCam = new Camera(4, 2.25f);
+            //mainCam = new Camera(12, 6.75f);
+            //mainCam = new Camera(8, 4.5f);
+            mainCam = new Camera(4, 2.25f);
             //mainCam = new Camera(2, 1.125f);
             //mainCam = new Camera(1, 0.5625f);
             Renderer.CharacterCamera = mainCam;
@@ -34,7 +31,7 @@ namespace MischiefFramework.States {
 
 #if DEBUG_PHYSICS
             foreach (Entity e in WorldController.space.Entities) {
-                if ((string)e.Tag != "noDisplayObject") {
+                if (e.Tag != null && e.Tag.ToString() != "noDisplayObject") {
                     Game.instance.ModelDrawer.Add(e);
                 } else //Remove the now unnecessary tag.
                     e.Tag = null;

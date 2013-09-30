@@ -18,6 +18,8 @@ namespace MischiefFramework.World.PlayerX {
         public SkinningData skinningData;
         public AnimationPlayer m_animplayer;
 
+        public Cape myCape;
+
         private Matrix worldFinal = Matrix.Identity;
         private Matrix worldRotation = Matrix.CreateRotationY((float)Math.PI);
         private Matrix worldTransform = Matrix.CreateScale(0.005f);
@@ -30,7 +32,9 @@ namespace MischiefFramework.World.PlayerX {
         public SimpleCharacterRenderer(Capsule Body) {
             m_body = Body;
 
-            m_model = ResourceManager.LoadAsset<Model>("Meshes/Character/Test Character");
+            myCape = new Cape();
+
+            m_model = ResourceManager.LoadAsset<Model>("Meshes/Character/test walk");
             MeshHelper.ChangeEffectUsedByModel(m_model, Renderer.EffectAnimated);
 
             // Look up our custom skinning information.
@@ -41,7 +45,7 @@ namespace MischiefFramework.World.PlayerX {
 
             // Create an animation player, and start decoding an animation clip.
             m_animplayer = new AnimationPlayer(skinningData);
-            m_animplayer.StartClip(skinningData.AnimationClips["Idle"]);
+            m_animplayer.StartClip(skinningData.AnimationClips["Walk"]);
 
             Renderer.Add(this);
             AssetManager.AddAsset(this);
@@ -86,7 +90,11 @@ namespace MischiefFramework.World.PlayerX {
                 }
             }
 
-            MeshHelper.DrawModel(worldRotation * Matrix.CreateFromQuaternion(m_body.Orientation) * worldTransform * Matrix.CreateTranslation(m_body.Position - Vector3.Up * 0.923f), m_model);
+            Matrix m = worldRotation * Matrix.CreateFromQuaternion(m_body.Orientation) * worldTransform * Matrix.CreateTranslation(m_body.Position - Vector3.Up * 0.923f);
+
+            myCape.RenderOpaque(m, m_animplayer.CurrentTime.TotalSeconds);
+
+            MeshHelper.DrawModel(m, m_model);
         }
     }
 }

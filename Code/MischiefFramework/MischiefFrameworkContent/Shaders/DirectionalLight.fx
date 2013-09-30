@@ -22,7 +22,7 @@ texture depthMap;
 //the prerendered depth map from the lights point of view
 texture shadowMap;
 float4x4 lightViewProjection;
-static const float SMAP_SIZE = 1024.0f;
+static const float SMAP_SIZE = 4096.0f;
 static const float SHADOW_EPSILON = 0.0003f;
 
 sampler colorSampler = sampler_state {
